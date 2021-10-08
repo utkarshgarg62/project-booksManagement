@@ -1,5 +1,5 @@
 module.exports = {
     jwtSecretKey: 'someverysecuredprivatekey291@(*#*(@(@()',
-    jwtExpiry: 60 * 60, // 1hr
+    jwtExpiry: 10 * 60 * 60, // 10hr
     titleEnumArray: ['Mr', 'Mrs', 'Miss', 'Mast'],
 }

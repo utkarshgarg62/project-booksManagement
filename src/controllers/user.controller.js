@@ -45,7 +45,7 @@ const register = async function (req, res) {
             return res.status(400).send({status: false, message: `Password is required`})
         }
         
-        if(!validator.isValidLength(password)) {
+        if(!validator.isValidLength(password, 8, 15)) {
             return res.status(400).send({status: false, message: `Password lenght must be between 8 to 15 char long`})
         }
         
@@ -104,7 +104,7 @@ const login = async function (req, res) {
 
         const token = await jwt.createToken({userId: user._id});
 
-        return res.status(200).send({status: true, message: `Author login successfull`, data: {token}});
+        return res.status(200).send({status: true, message: `User login successfull`, data: {token}});
     } catch (error) {
         return res.status(500).send({status: false, message: error.message});
     }

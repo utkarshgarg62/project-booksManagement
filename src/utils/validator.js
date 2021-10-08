@@ -58,7 +58,25 @@ const isValidDate = function(value) {
         "YYYY/MM/DD",
         "DD-MM-YYYY",
         "MM-DD-YYYY",
-        "YYYY-MM-DD"
+        "YYYY-MM-DD",
+        /* "D/M/YYYY",
+        "D/MM/YYYY",
+        "DD/M/YYYY",
+        "M/D/YYYY",
+        "M/DD/YYYY",
+        "MM/D/YYYY",
+        "YYYY/M/D",
+        "YYYY/MM/D",
+        "YYYY/M/DD",
+        "D-M-YYYY",
+        "DD-M-YYYY",
+        "D-MM-YYYY",
+        "M-D-YYYY",
+        "M-DD-YYYY",
+        "MM-D-YYYY",
+        "YYYY-M-D",
+        "YYYY-M-DD",
+        "YYYY-MM-D", */
     ]
     return moment(value, validFormats, true).isValid()
 }

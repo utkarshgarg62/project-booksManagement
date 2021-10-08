@@ -1,3 +1,5 @@
+const moment = require('moment')
+
 const {BookModel, ReviewModel, UserModel} = require('../models')
 const {validator} = require('../utils')
 
@@ -20,9 +22,17 @@ const addReview = async function (req, res) {
         if(!book) return res.status(404).send({status: false, message: `Book does not exist`})
 
         const { review, rating, reviewedBy, reviewedAt } = requestBody;
+        
+        if(!validator.isValid(rating)) {
+            return res.status(400).send({ status: false, message: 'Rating is required' })
+        }
+        
+        if (!validator.isValidNumber(rating) || !validator.isInValidRange(rating, 1, 5)) {
+            return res.status(400).send({ status: false, message: 'Rating should be a valid number between 1 to 5' })
+        }
 
-        if (!validator.isValidNumber(rating) && !validator.isInValidRange(rating, 1, 5)) {
-            return res.status(400).send({ status: false, message: 'Rating should be between 1 to 5' })
+        if(!validator.isValid(reviewedAt)) {
+            return res.status(400).send({ status: false, message: `Review date is required`})
         }
 
         if(!validator.isValidDate(reviewedAt)) {
@@ -30,10 +40,11 @@ const addReview = async function (req, res) {
         }
 
         const newReview = await ReviewModel.create({
+            bookId,
             rating,
             review,
             reviewedBy,
-            reviewedAt
+            reviewedAt: moment(reviewedAt).toISOString()
         });
 
         book.reviews = book.reviews + 1
@@ -70,7 +81,7 @@ const updateReview = async function (req, res) {
             return res.status(400).send({ status: false, message: `${reviewId} is not a valid review id` })
         }
 
-        const reviewExist = await ReviewModel.findOne({ _id: reviewId, isDeleted: false})
+        const reviewExist = await ReviewModel.findOne({ _id: reviewId, bookId: bookId, isDeleted: false})
 
         if(!reviewExist) return res.status(404).send({status: false, message: `Book review not found`})
 
@@ -86,18 +97,22 @@ const updateReview = async function (req, res) {
         
         const updatedReviewData = {}
 
-        if (validator.isValid(rating) && validator.isValidNumber(rating) && validator.isInValidRange(rating, 1, 5)) {
-            if (!Object.prototype.hasOwnProperty.call(updatedReviewData, '$set'))
-                updatedReviewData[ '$set' ] = {}
-
-            updatedReviewData[ '$set' ][ 'rating' ] = rating
+        if (validator.isValid(rating)) {
+            if(validator.isValidNumber(rating) && validator.isInValidRange(rating, 1, 5)) {
+                if (!Object.prototype.hasOwnProperty.call(updatedReviewData, '$set'))
+                    updatedReviewData[ '$set' ] = {}
+    
+                updatedReviewData[ '$set' ][ 'rating' ] = rating
+            } else {
+                return res.status(400).send({status: false, message: 'Rating should be a valid number between 1 to 5'})
+            }
         }
 
         if(validator.isValid(reviewedAt) && validator.isValidDate(reviewedAt)) {
             if (!Object.prototype.hasOwnProperty.call(updatedReviewData, '$set'))
                 updatedReviewData[ '$set' ] = {}
 
-            updatedReviewData[ '$set' ][ 'reviewedAt' ] = reviewedAt
+            updatedReviewData[ '$set' ][ 'reviewedAt' ] = moment(reviewedAt).toISOString()
         }
 
         if (validator.isValid(review)) {
@@ -142,7 +157,7 @@ const deleteReview = async function (req, res) {
 
         if(!book) return res.status(404).send({ status: false, message: 'Book not found'})
 
-        const review = await ReviewModel.findOne({ _id: reviewId, isDeleted: false })
+        const review = await ReviewModel.findOne({ _id: reviewId, bookId: bookId, isDeleted: false })
 
         if (!review) {
             return res.status(404).send({ status: false, message: `Review not found` })
@@ -150,7 +165,7 @@ const deleteReview = async function (req, res) {
 
         await ReviewModel.findOneAndUpdate({ _id: reviewId }, { $set: { isDeleted: true, deletedAt: new Date() } } )
 
-        book.reviews = book.review - 1
+        book.reviews = book.reviews === 0 ? 0 : book.reviews - 1
         await book.save()
 
         return res.status(200).send({ status: true, message: `Success` })

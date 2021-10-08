@@ -1,3 +1,5 @@
+const moment = require('moment')
+
 const {BookModel, ReviewModel, UserModel} = require('../models')
 const {validator} = require('../utils')
 
@@ -23,6 +25,10 @@ const createBook = async function (req, res) {
 
         if (!validator.isValid(excerpt)) {
             return res.status(400).send({ status: false, message: 'Excerpt is required' })
+        }
+
+        if(!validator.isValid(userId)) {
+            return res.status(400).send({ status: false, message: 'User id is required' })
         }
 
         if(!validator.isValidObjectId(userId)) {
@@ -51,12 +57,16 @@ const createBook = async function (req, res) {
             return res.status(400).send({ status: false, message: 'Subcategory is required' })
         }
 
+        if(!validator.isValid(releasedAt)) {
+            return res.status(400).send({ status: false, message: `Release date is required`})
+        }
+
         if(!validator.isValidDate(releasedAt)) {
             return res.status(400).send({ status: false, message: `${releasedAt} is an invalid date`})
         }
 
         const newBook = await BookModel.create({
-            title, excerpt, userId, ISBN, category, subcategory, releasedAt
+            title, excerpt, userId, ISBN, category, subcategory, releasedAt: moment(releasedAt).toISOString()
         });
 
         return res.status(201).send({ status: true, message: `Books created successfully`, data: newBook });
@@ -194,7 +204,7 @@ const updateBook = async function (req, res) {
             if (!Object.prototype.hasOwnProperty.call(updatedBookData, '$set'))
                 updatedBookData[ '$set' ] = {}
             
-            updatedBookData[ '$set' ][ 'releasedAt' ] = releasedAt
+            updatedBookData[ '$set' ][ 'releasedAt' ] = moment(releasedAt).toISOString()
         }
 
         const updatedBook = await BookModel.findOneAndUpdate({ _id: bookId }, updatedBookData, { new: true })

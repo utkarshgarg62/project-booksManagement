@@ -2,10 +2,10 @@ const jwt = require('jsonwebtoken')
 
 const {systemConfig} = require('../configs')
 
-const createToken = async ({authorId}) => {
+const createToken = async ({userId}) => {
     try {
         const token = await jwt.sign({
-            authorId,
+            userId,
             iat: Math.floor(Date.now() / 1000),
             exp: Math.floor(Date.now() / 1000) + systemConfig.jwtExpiry
         }, systemConfig.jwtSecretKey)
