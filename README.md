@@ -52,6 +52,7 @@
   reviewedAt: {Date, mandatory},
   rating: {number, min 1, max 5, mandatory},
   review: {string, optional}
+  isDeleted: {boolean, default: false},
 }
 ```
 
