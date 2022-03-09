@@ -1,4 +1,4 @@
-# Radiumplus
+# Thorium
 
 ## Project - Books Management
 
