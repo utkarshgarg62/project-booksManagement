@@ -195,7 +195,7 @@ Refer below sample
   "deleted": false,
   "reviews": 0,
   "deletedAt": "", // if deleted is true deletedAt will have a date 2021-09-17T04:25:07.803Z,
-  "releasedAt": "2021-09-17T04:25:07.803Z"
+  "releasedAt": "2021-09-17"
   "createdAt": "2021-09-17T04:25:07.803Z",
   "updatedAt": "2021-09-17T04:25:07.803Z",
 }
