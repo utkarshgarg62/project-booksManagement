@@ -192,9 +192,8 @@ Refer below sample
   "ISBN": "978-0008391331",
   "category": "Book",
   "subcategory": "Non fiction",
-  "deleted": false,
+  "isDeleted": false,
   "reviews": 0,
-  "deletedAt": "", // if deleted is true deletedAt will have a date 2021-09-17T04:25:07.803Z,
   "releasedAt": "2021-09-17"
   "createdAt": "2021-09-17T04:25:07.803Z",
   "updatedAt": "2021-09-17T04:25:07.803Z",
@@ -254,9 +253,8 @@ Refer below sample
     "userId": ObjectId("88abc190ef0288abc190ef02")
     "category": "Book",
     "subcategory": ["Non fiction", "Self Help"],
-    "deleted": false,
-    "reviews": 0,
-    "deletedAt": "", // if deleted is true deletedAt will have a date 2021-09-17T04:25:07.803Z,
+    "isDeleted": false,
+    "reviews": 4,
     "releasedAt": "2021-09-17T04:25:07.803Z"
     "createdAt": "2021-09-17T04:25:07.803Z",
     "updatedAt": "2021-09-17T04:25:07.803Z",
