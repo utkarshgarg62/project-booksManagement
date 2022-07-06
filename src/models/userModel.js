@@ -5,7 +5,7 @@ const userSchema = new mongoose.Schema({
 title: {
     type: String,
     required: true,
-    enum: [Mr, Mrs, Miss]
+    enum: ["Mr", "Mrs", "Miss"]
 },
 name: {
     type: String,
@@ -26,11 +26,11 @@ password: {
     type: String,
     required: true
 },
-address: [{
+address: {
     street: {type:String},
     city: {type:String},
     pincode: {type:String}
-}],  
+},  
 
 }, { timestamps: true })
 module.exports = mongoose.model('userModel', userSchema) 
