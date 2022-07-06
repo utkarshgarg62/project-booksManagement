@@ -4,42 +4,50 @@ const objectId = mongoose.Schema.Types.ObjectId
 const blogSchema = new mongoose.Schema({
     title: {
         type: String,
-        required: true
+        required: true,
+        unqiue:true
     },
-    body: {
+    excerpt: {
         type: String,
         required: true
     },
-    authorId: {
+    userId: {
         type: objectId,
-        ref: "authorModel",
+        ref: "userModel",
         required: true
     },
-    tags: [String],
-
+    ISBN: {
+        type: String,
+        required: true,
+        unqiue:true
+    },
     category: {
         type: String,
-        required: true
+        required: true,
     },
     subcategory: [{
         type: String,
+        required: true,
     }],
+    reviews: {
+        type: Number,
+        default:0
+    },
     deletedAt: {
-        type: String,
+        type: Date,
     },
     isDeleted: { 
         type: Boolean, 
         default: false 
     },
-    publishedAt: {
-        type: String,
-    },
-    isPublished: { 
-        type: Boolean, 
-        default: false 
+    releasedAt: {
+        type: Date,
+        required: true,
+        
     }
-
 }, { timestamps: true });
+module.exports = mongoose.model('blogModel', blogSchema) //blogmodel
+
 
 
 //  title: {string, mandatory, unique},
@@ -54,12 +62,3 @@ const blogSchema = new mongoose.Schema({
 // releasedAt: {Date, mandatory, format("YYYY-MM-DD")},
 // createdAt: {timestamp},
 // updatedAt: {timestamp},
-
-
-
-
-
-
-
-
-module.exports = mongoose.model('blogModel', blogSchema) //blogmodel

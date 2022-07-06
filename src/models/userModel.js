@@ -1,46 +1,39 @@
 const mongoose = require("mongoose")
 
-const authorSchema = new mongoose.Schema({
+const userSchema = new mongoose.Schema({
 
 title: {
     type: String,
-    required: true
+    required: true,
+    enum: [Mr, Mrs, Miss]
 },
-body: {
+name: {
     type: String,
     required: true
 },
-authorId: {
-    type: objectId,
-    ref: "authorModel",
+phone: {
+    type: string,
+    unique:true,
     required: true
 },
-tags: [String],
+email: {
+    type:String,
+    required:true,
+    unique:true
+},
 
-category: {
+password: {
     type: String,
     required: true
 },
-subcategory: [{
-    type: String,
-}],
-deletedAt: {
-    type: String,
-},
-isDeleted: { 
-    type: Boolean, 
-    default: false 
-},
-publishedAt: {
-    type: String,
-},
-isPublished: { 
-    type: Boolean, 
-    default: false 
-}
+address: [{
+    street: {string},
+    city: {string},
+    pincode: {string}
+}],  
 
-})
-module.exports = mongoose.model('authorModel', authorSchema) //authormodel
+}, { timestamps: true })
+module.exports = mongoose.model('userModel', userSchema) 
 
 
 
