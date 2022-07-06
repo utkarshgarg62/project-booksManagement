@@ -1,9 +1,9 @@
 const bookModel = require("../models/bookModel")
 const userModel = require("../models/userModel")
-const { isValid, isValidObjectId,isValidDate } = require("../middleware/validation");
+const { isValid, isValidObjectId,isValidDate,isValidISBN } = require("../middleware/validation");
 
 
-//====================================================Create Book Api========================================================================
+//====================================================[Create Book Api]========================================================================
 
 
 const createBook = async function (req, res) {
@@ -20,27 +20,30 @@ const createBook = async function (req, res) {
         }
         
         if (!isValid(excerpt)) {
-            return res.status(400).send({ msg: "Enter Title" })
+            return res.status(400).send({ msg: "Enter Excerpt" })
         }
 
         if (!isValid(userId)) {
-            return res.status(400).send({ msg: "Enter  Author Id" })
+            return res.status(400).send({ msg: "Enter a User Id" })
         }
 
         if (!isValidObjectId(userId)) {
-            return res.status(400).send({ msg: "Enter Valid Author Id" })
+            return res.status(400).send({ msg: "Enter Valid User Id" })
         }
 
         if (!isValid(ISBN)) {
-            return res.status(400).send({ msg: "Enter  Author Id" })
+            return res.status(400).send({ msg: "Enter ISBN Number" })
+        }
+        if (!isValidISBN(ISBN)) {
+            return res.status(400).send({ msg: "Enter a valid ISBN Number" })
         }
 
         if (!isValid(category)) {
-            return res.status(400).send({ msg: "Enter  Author Id" })
+            return res.status(400).send({ msg: "Enter Category" })
         }
 
         if (!isValid(subcategory)) {
-            return res.status(400).send({ msg: "Enter Body" })
+            return res.status(400).send({ msg: "Enter subcategory" })
         }
 
         if (!isValid(releasedAt)) {
@@ -67,3 +70,18 @@ const createBook = async function (req, res) {
     }
 };
 module.exports.createBook = createBook
+
+
+
+//=====================================================[Get Book API]========================================================================
+
+
+const getBooksData = async function (req, res) {
+    try {
+
+    }
+    catch (err) {
+        res.status(500).send({ msg:err.message})
+    }
+}
+module.exports.getBooksData = getBooksData

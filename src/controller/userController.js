@@ -1,82 +1,83 @@
 const userModel = require('../models/userModel');
 const jwt=require("jsonwebtoken");
-//const moment = require("moment");
-const { isValid, isValidEmail, isValidMobile, isValidName,isValidTitle, isValidPassword, isValidAddress} = require("../middleware/validation");
+const { isValid, isValidEmail, isValidMobile, isValidName,isValidTitle, isValidPassword, } = require("../middleware/validation");
 
 const createUser = async function(req,res){
     try{
         const data = req.body;
         let { title, name, phone, email, password, address } = data;
         if (Object.keys(data).length<1) {
-            return res.status(400).send({ status: false, msg: "Data is required to create a user" });
+            return res.status(400).send({ status: false, message: "Data is required to create a user" });
           }
 
           //------------ Validation title
 
         if (!isValid(title)) {
-            return res.status(400).send({ msg: "Enter Title" })
+            return res.status(400).send({ message: "Enter Title" })
         }
         if (!isValidTitle(title)) {
-            return res.status(400).send({ msg: "Enter valid Title" })
+            return res.status(400).send({ message: "Enter valid Title" })
         }
 
         // -------------Validation Name
 
         if(!isValid(name)){
-            return res.status(400).send({msg: "Enter name"});
+            return res.status(400).send({message: "Enter Name"});
         }
         if(!isValidName(name)){
-            return res.status(400).send({msg: "Enter valid name"});
+            return res.status(400).send({message: "Enter valid name"});
         }
 
         //------------- Validation Phone
 
         if(!isValid(phone)){
-            return res.status(400).send({msg: "Enter phone"});
+            return res.status(400).send({message: "Enter Phone Number"});
         }
         if(!isValidMobile(phone)){
-            return res.status(400).send({msg: "Enter valid phone"});
+            return res.status(400).send({message: "Enter valid phone number of 10 digits"});
         }
         
         //--------------Validation Email
 
         if(!isValid(email)){
-            return res.status(400).send({msg: "Enter email"});
+            return res.status(400).send({message: "Enter Email"});
         }
         if(!isValidEmail(email)){
-            return res.status(400).send({msg: "Enter valid email"});
+            return res.status(400).send({message: "Enter valid email"});
         }
         
         //------------- Validation Password
 
         if(!isValid(password)){
-            return res.status(400).send({msg: "Enter  password"});
+            return res.status(400).send({message: "Enter Password"});
         }
         if(!isValidPassword(password)){
-            return res.status(400).send({msg: "Enter  password"});
+            return res.status(400).send({message: "Minimum eight characters, at least one letter and one number in Password"});
         }
         //-------------- Validation Address
 
         // if(!isValid(address)){
-        //     return res.status(400).send({msg: "Enter address"});
+        //     return res.status(400).send({message: "Enter address"});
         // }
         // if(!isValidAddress(address)){
-        //     return res.status(400).send({msg: "Enter valid address"});
+        //     return res.status(400).send({message: "Enter valid address"});
         // }
+
+
         //********************************DB cal email and phone ************/
 
         let checkPhone=await userModel.findOne({phone: data.phone})
-        if(checkPhone) return res.status(400).send({msg :"Phone already exists"})
+        if(checkPhone) return res.status(400).send({message :"Phone already exists"})
 
         let checkEmail = await userModel.findOne({email: data.email})
-        if(checkEmail) return res.status(400).send({msg:" Email is already exists"})
+        if(checkEmail) return res.status(400).send({message:" Email is already exists"})
 
         //**********************************************************************/
           let createdData = await userModel.create(data)
-          res.status(201).send({ status: true, msg: " User data succesfully created", data: createdData });
+          res.status(201).send({ status: true, message: 'Success', data: createdData });
     }
     catch (err) {
-        res.status(500).send({ status: false, error: err.message });
+        res.status(500).send({status: false,  message: err });
       }
 
 }
@@ -87,7 +88,7 @@ const userLogin = async function (req, res) {
         userName = req.body.email;
         userPassword = req.body.password;
         let userDetails = await userModel.findOne({email: userName,password: userPassword,});
-        if (!userDetails) {res.status(400).send({status: false,msg: "userName or userpassword is invalid",});
+        if (!userDetails) {res.status(400).send({status: false,message: "userName or userpassword is invalid",});
         }
         let token = jwt.sign(
           {
@@ -100,7 +101,7 @@ const userLogin = async function (req, res) {
         res.setHeader("x-api-key", token);
         res.status(201).send({ status: true, data: { token: token } });
       } catch (err) {
-        res.status(500).send({ msg: "Error", error: err.message });
+        res.status(500).send({ message: "Error", error: err.message });
       }
     }
   
