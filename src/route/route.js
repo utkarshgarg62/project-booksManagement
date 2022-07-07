@@ -21,10 +21,9 @@ router.put("/books/:bookId", middleware.authenticate, middleware.authorization, 
 router.delete("/books/:bookId", middleware.authenticate, middleware.authorization, bookController.deleteBookId)
 
 //---------------- REVIEW API'S ----------------------
-router.post("/books",reviewController.createReview)
-router.put("/books",reviewController.updatedReview)
-router.delete("/books",reviewController.deleteReview)
-
+router.post("/books/:bookId/review",reviewController.createReview)
+router.put("/books/:bookId/review/:reviewId",reviewController.updatedReview)
+router.delete("/books/:bookId/review/:reviewId",reviewController.deleteReview)
 
 
 module.exports = router;
