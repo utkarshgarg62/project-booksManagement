@@ -35,7 +35,7 @@ address: {
     street: {type:String},
     city: {type:String},
     pincode: {type:String},
-    trim: true
+
 },  
 
 }, { timestamps: true })

@@ -93,11 +93,11 @@ const userLogin = async function (req, res) {
         let token = jwt.sign(
           {
             userId: userDetails._id.toString(),
-            iat: Date.now(),
-            exp: Math.floor(Date.now() + (10 * 60))
+            // iat: Date.now(),
+            // exp: Math.floor(Date.now() + (10 * 60))
 
-            // iat: Math.floor(Date.now() / 1000), //time of issuing the token.
-            // exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24 //setting token expiry time limit.
+            iat: Math.floor(Date.now() / 1000), //time of issuing the token.
+            exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24 //setting token expiry time limit.
 
           },
           "bookManagement35"

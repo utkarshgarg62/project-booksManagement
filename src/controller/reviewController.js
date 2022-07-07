@@ -43,6 +43,15 @@ module.exports.createReview = createReview
 const updatedReview = async function (req, res) {
 
     try {
+        let  data= req.body;
+        if (Object.keys(data).length === 0) return res.status(400).send({ status: false, msg: "Bad Request" });
+        let reviewId = req.params.reviewId;
+        let reviewToBeUpdted = await reviewModel.findOne({ _id: reviewId, isDeleted: false })
+        if (Object.keys(reviewToBeUpdted).length === 0) {
+        return res.status(404).send({ status: false, msg: "review does not exist" })}
+        
+        let updatedReview= await reviewModel.findOneAndUpdate({ _id:reviewId }, { $set: data }, { new: true })
+        res.status(201).send({ status: true, data: updatedReview })
 
         
     } catch (error) {
