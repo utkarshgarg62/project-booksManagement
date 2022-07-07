@@ -1,7 +1,7 @@
 const reviewModel = require("../models/reviewModel")
 const { isValid, isValidObjectId, } = require("../middleware/validation");
 
-//====================================================[Create Revirw Api]========================================================================
+//====================================================[Create Review Api]========================================================================
 
 
 const createReview = async function (req, res) {
@@ -37,7 +37,7 @@ const createReview = async function (req, res) {
 module.exports.createReview = createReview
 
 
-//============================================[Update Review API By reviewId]======================================================================
+//====================================================[Update Review API By reviewId]============================================================
 
 
 const updatedReview = async function (req, res) {
@@ -63,7 +63,7 @@ const updatedReview = async function (req, res) {
 module.exports.updatedReview = updatedReview
 
 
-//============================================[Delete Review API By reviewId]======================================================================
+//================================================[Delete Review API By reviewId]================================================================
 
 const deleteReview = async function (req, res) {
 

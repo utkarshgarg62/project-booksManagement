@@ -8,6 +8,12 @@ const isValid = function(value){
     return true
 }
 
+//String Validation
+const isValidString = function(value){
+    if(typeof value ==='string' && value.trim().length ===0)return false
+    return true
+}
+
 
 //Name Validation
 const isValidName =function(name){
@@ -69,17 +75,4 @@ const isBoolean = function(value){
 }
 
 
-module.exports = { isValidName, isValidTitle,isValidMobile,isValidISBN, isValidEmail, isValidPassword, isValidObjectId, isBoolean, isValid,isValidDate}
-
-
-
-
-
-
-
-
-
-// const isValidAddress = function(address){
-//     const addressReg = /^[a-zA-Z0-9\s,'-]*$/
-//     return addressReg.test(address)
-// }
+module.exports = { isValidName,isValidString, isValidTitle,isValidMobile,isValidISBN, isValidEmail, isValidPassword, isValidObjectId, isBoolean, isValid,isValidDate}

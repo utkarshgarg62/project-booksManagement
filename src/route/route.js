@@ -5,9 +5,7 @@ const bookController = require('../controller/bookController');
 const reviewController = require('../controller/reviewController');
 const middleware=require("../middleware/middleware")
 
-
 //====================================================APIs=================================================================================
-
 
 //---------------- USER API'S ----------------------
 router.post('/register', userController.createUser)
