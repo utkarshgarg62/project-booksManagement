@@ -10,5 +10,8 @@ router.post("/books",bookController.createBook)
 router.get("/books",bookController.getBooksData)
 
 
+router.delete("/books/:bookId", bookController.deleteBook)
+
+
 
 module.exports = router;

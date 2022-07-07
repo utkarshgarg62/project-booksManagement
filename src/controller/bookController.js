@@ -78,8 +78,28 @@ module.exports.createBook = createBook
 
 const getBooksData = async function (req, res) {
     try {
+        let data = req.query;
+        let {userId,category, subcategory } = data
+        if (userId || category || subcategory){
 
+            let bookData = {};
+            if(userId){
+                bookData.userId = userId
+            }
+            if(category){
+                bookData.category = category
+            }
+            if(subcategory){
+                bookData.subcategory = subcategory
+            }
+            let books  = await bookModel.find({$and: [bookData,{isDeleted:false}]}).select({_id:1, title:1, excerpt:1, userId:1, category:1, reviews: 1, releasedAt:1,}).sort({title:1})
+        if(books.length>0) return res.status(200).send({status:true, message: 'Books list', data:books})
+        else return res.status(404).send({status:false, message: "No data found"})
     }
+
+        }
+        
+        
     catch (err) {
         res.status(500).send({ msg:err.message})
     }
