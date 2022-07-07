@@ -2,6 +2,9 @@ const userModel = require('../models/userModel');
 const jwt=require("jsonwebtoken");
 const { isValid, isValidEmail, isValidMobile, isValidName,isValidTitle, isValidPassword, } = require("../middleware/validation");
 
+//================================================[Create User Api]=======================================================================
+
+
 const createUser = async function(req,res){
     try{
         const data = req.body;
@@ -54,15 +57,6 @@ const createUser = async function(req,res){
         if(!isValidPassword(password)){
             return res.status(400).send({message: "Minimum eight characters, at least one letter and one number in Password"});
         }
-        //-------------- Validation Address
-
-        // if(!isValid(address)){
-        //     return res.status(400).send({message: "Enter address"});
-        // }
-        // if(!isValidAddress(address)){
-        //     return res.status(400).send({message: "Enter valid address"});
-        // }
-
 
         //********************************DB cal email and phone ************/
 
@@ -81,6 +75,12 @@ const createUser = async function(req,res){
       }
 
 }
+module.exports.createUser = createUser
+
+
+
+//================================================[User Login Api]=======================================================================
+
 
 
 const userLogin = async function (req, res) {
@@ -106,5 +106,3 @@ const userLogin = async function (req, res) {
     }
   
 module.exports.userLogin = userLogin;
-
-module.exports.createUser = createUser

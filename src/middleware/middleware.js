@@ -9,14 +9,12 @@ const userModel = require("../models/userModel");
 const authenticate = function (req, res, next) {
     try {
         let token = req.headers["x-api-key"];
+        if(!token) token = req.headers["X-Api-Key"]
         if (!token) return res.status(400).send({ status: false, msg: "token must be present" });
-        let decodedToken = jwt.verify(token, "group-25", 
-        
-        function(err,decodedToken){
-            if(err)
-            return res.status(401).send({status:false,message:"Token is NOT Valid"})
-            next()
-        } );
+        let decodedToken = jwt.verify(token, "group-35");
+        if(!decodedToken) return res.status(400).send({status:false,message:"Invalid Token"})
+        req.userLoggedIn=decodedToken.userId
+        next()
 
     } catch (error) {
         res.status(500).send({ msg: error.message })
@@ -28,11 +26,15 @@ const authenticate = function (req, res, next) {
 
 
 
-const newAuth = async function (req, res, next) {
+const authorization = async function (req, res, next) {
    
     try {
-      
+        let fromBodyUserId = req.body.userId
+        let fromParamsBookId = req.params.bookId   
         
+        
+
+        next();
     }
     catch (error) {
         res.status(500).send(error.message)
@@ -41,5 +43,5 @@ const newAuth = async function (req, res, next) {
 
 
 module.exports.authenticate = authenticate
-module.exports.newAuth=newAuth
+module.exports.authorization = authorization
 

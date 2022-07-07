@@ -33,5 +33,6 @@ address: {
 },  
 
 }, { timestamps: true })
+
 module.exports = mongoose.model('userModel', userSchema) 
 
