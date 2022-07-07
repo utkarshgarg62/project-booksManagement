@@ -6,7 +6,8 @@ const reviewSchema = new mongoose.Schema({
     bookId: {
         type: objectId,
         required: true,
-        ref: 'bookModel'
+        ref: 'bookModel',
+        trim: true
     },
 
     reviewedBy: {
@@ -23,7 +24,8 @@ const reviewSchema = new mongoose.Schema({
 
     rating: {
         type: Number,
-        required: true
+        required: true,
+        trim: true
     },
 
     review: {

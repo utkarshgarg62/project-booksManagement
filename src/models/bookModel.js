@@ -5,29 +5,32 @@ const bookSchema = new mongoose.Schema({
     title: {
         type: String,
         required: true,
-        unqiue:true
+        unqiue:true,
+        trim: true
     },
     excerpt: {
         type: String,
-        required: true
+        required: true,
+        trim: true
     },
     userId: {
         type: objectId,
         ref: "userModel",
-        required: true
+        required: true,
+        trim: true
     },
     ISBN: {
         type: String,
         required: true,
-        unqiue:true
+        unqiue:true,trim: true
     },
     category: {
         type: String,
-        required: true,
+        required: true,trim: true
     },
     subcategory: [{
         type: String,
-        required: true,
+        required: true,trim: true
     }],
     reviews: {
         type: Number,
