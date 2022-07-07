@@ -8,9 +8,13 @@ router.post('/register', userController.createUser)
 router.post('/login', userController.userLogin)
 router.post("/books",bookController.createBook)
 router.get("/books",bookController.getBooksData)
+router.get("/books/:bookId",bookController.getBooksDataById)
+router.delete("/books/:bookId", bookController.deleteBookId)
+router.put("/books/:bookId", bookController.updatedBook)
 
 
-router.delete("/books/:bookId", bookController.deleteBook)
+
+
 
 
 
