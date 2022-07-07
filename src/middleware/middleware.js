@@ -11,7 +11,7 @@ const authenticate = function (req, res, next) {
         let token = req.headers["x-api-key"];
         if(!token) token = req.headers["X-Api-Key"]
         if (!token) return res.status(400).send({ status: false, msg: "token must be present" });
-        let decodedToken = jwt.verify(token, "group-35");
+        let decodedToken = jwt.verify(token, "bookManagement35");
         if(!decodedToken) return res.status(400).send({status:false,message:"Invalid Token"})
         req.userLoggedIn=decodedToken.userId
         next()
