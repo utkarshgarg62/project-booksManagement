@@ -74,5 +74,12 @@ const isBoolean = function(value){
     return false
 }
 
+// ReviewdBy validation
 
-module.exports = { isValidName,isValidString, isValidTitle,isValidMobile,isValidISBN, isValidEmail, isValidPassword, isValidObjectId, isBoolean, isValid,isValidDate}
+const isValidReviewed = function(reviewedBy){
+    const reviewReg = /^[a-zA-Z]+(\s[a-zA-Z]+)?$/
+    return reviewReg.test(reviewedBy)
+}
+
+
+module.exports = { isValidName,isValidString, isValidTitle,isValidMobile,isValidISBN, isValidEmail, isValidPassword, isValidObjectId, isBoolean, isValid,isValidDate,isValidReviewed}
