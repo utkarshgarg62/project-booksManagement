@@ -75,7 +75,6 @@ const createUser = async function(req,res){
       }
 
 }
-module.exports.createUser = createUser
 
 
 
@@ -108,5 +107,12 @@ const userLogin = async function (req, res) {
         res.status(500).send({ message: "Error", error: err.message });
       }
     }
-  
+
+
+
+//================================================[Exporting Functions]=======================================================================
+
+
+
+module.exports.createUser = createUser
 module.exports.userLogin = userLogin;

@@ -75,11 +75,28 @@ const isBoolean = function(value){
 }
 
 // ReviewdBy validation
+// const isValidReviewed = function(reviewedBy){
+//     const reviewReg = /^[a-zA-Z]+(\s[a-zA-Z]+)?$/
+//     return reviewReg.test(reviewedBy)
+// }
 
-const isValidReviewed = function(reviewedBy){
-    const reviewReg = /^[a-zA-Z]+(\s[a-zA-Z]+)?$/
-    return reviewReg.test(reviewedBy)
+//Rating Validation
+const isValidRating = function isInteger(value) {
+    return value % 1 == 0;
 }
 
-
-module.exports = { isValidName,isValidString, isValidTitle,isValidMobile,isValidISBN, isValidEmail, isValidPassword, isValidObjectId, isBoolean, isValid,isValidDate,isValidReviewed}
+module.exports = { 
+    isValidName,
+    isValidString, 
+    isValidTitle,
+    isValidMobile,
+    isValidISBN, 
+    isValidEmail, 
+    isValidPassword, 
+    isValidObjectId, 
+    isBoolean, 
+    isValid,
+    isValidDate,
+    // isValidReviewed,
+    isValidRating
+}
