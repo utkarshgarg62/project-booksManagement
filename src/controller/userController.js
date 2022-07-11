@@ -58,7 +58,7 @@ const createUser = async function(req,res){
             return res.status(400).send({message: "Minimum eight characters, at least one letter and one number in Password"});
         }
 
-        //********************************DB cal email and phone ************/
+        //********************************DB call email and phone ************/
 
         let checkPhone=await userModel.findOne({phone: data.phone})
         if(checkPhone) return res.status(400).send({message :"Phone already exists"})
