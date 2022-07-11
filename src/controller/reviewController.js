@@ -27,9 +27,6 @@ const createReview = async function (req, res) {
         }
         data.bookId=validBookId._id
 
-        if (!isValid(reviewedBy)) {
-            return res.status(400).send({status: false, message: "Enter a reviewer's name" })
-        }
         if (!isValidName(reviewedBy)) {
             return res.status(400).send({status: false, message: "please enter valid name in reviewedBy : eg- John Doe" });
         }
