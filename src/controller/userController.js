@@ -16,55 +16,55 @@ const createUser = async function(req,res){
           //------------ Validation title
 
         if (!isValid(title)) {
-            return res.status(400).send({ message: "Enter Title" })
+            return res.status(400).send({status: false,  message: "Enter Title" })
         }
         if (!isValidTitle(title)) {
-            return res.status(400).send({ message: "Enter valid Title" })
+            return res.status(400).send({ status: false, message: "Enter valid Title" })
         }
 
         // -------------Validation Name
 
         if(!isValid(name)){
-            return res.status(400).send({message: "Enter Name"});
+            return res.status(400).send({status: false, message: "Enter Name"});
         }
         if(!isValidName(name)){
-            return res.status(400).send({message: "Enter valid name"});
+            return res.status(400).send({status: false, message: "Enter valid name"});
         }
 
         //------------- Validation Phone
 
         if(!isValid(phone)){
-            return res.status(400).send({message: "Enter Phone Number"});
+            return res.status(400).send({status: false, message: "Enter Phone Number"});
         }
         if(!isValidMobile(phone)){
-            return res.status(400).send({message: "Enter valid phone number of 10 digits"});
+            return res.status(400).send({status: false, message: "Enter valid phone number of 10 digits"});
         }
         
         //--------------Validation Email
 
         if(!isValid(email)){
-            return res.status(400).send({message: "Enter Email"});
+            return res.status(400).send({status: false, message: "Enter Email"});
         }
         if(!isValidEmail(email)){
-            return res.status(400).send({message: "Enter valid email"});
+            return res.status(400).send({status: false, message: "Enter valid email"});
         }
         
         //------------- Validation Password
 
         if(!isValid(password)){
-            return res.status(400).send({message: "Enter Password"});
+            return res.status(400).send({status: false, message: "Enter Password"});
         }
         if(!isValidPassword(password)){
-            return res.status(400).send({message: "Minimum eight characters, at least one letter and one number in Password"});
+            return res.status(400).send({status: false, message: "Minimum eight characters, at least 1 letter and 1 number in Password : Min 8 and Max 15"});
         }
 
         //********************************DB call email and phone ************/
 
         let checkPhone=await userModel.findOne({phone: data.phone})
-        if(checkPhone) return res.status(400).send({message :"Phone already exists"})
+        if(checkPhone) return res.status(400).send({status: false, message :"Phone already exists"})
 
         let checkEmail = await userModel.findOne({email: data.email})
-        if(checkEmail) return res.status(400).send({message:" Email is already exists"})
+        if(checkEmail) return res.status(400).send({status: false, message:" Email is already exists"})
 
         //**********************************************************************/
           let createdData = await userModel.create(data)
@@ -85,16 +85,20 @@ const createUser = async function(req,res){
 const userLogin = async function (req, res) {
     try {
         userName = req.body.email;
+        if (!userName) return res.status(400).send({status: false,message: "Email is required",})
+        if (!isValidEmail(userName)) return res.status(400).send({status: false,message: "Email is required",})
+
+
         userPassword = req.body.password;
-        let userDetails = await userModel.findOne({email: userName,password: userPassword,});
-        if (!userDetails) {res.status(400).send({status: false,message: "userName or userpassword is invalid",});
-        }
+        if (!userPassword) return res.status(400).send({status: false,message: "Password is required"})
+        if (!isValidPassword(userPassword)) return res.status(400).send({status: false,message: "Email is required",})
+        
+        let userDetails = await userModel.findOne({email:userName, password:userPassword,});
+        if (!userDetails) return res.status(401).send({status: false,message: "email or password is incorrect"})
+    
         let token = jwt.sign(
           {
             userId: userDetails._id.toString(),
-            // iat: Date.now(),
-            // exp: Math.floor(Date.now() + (10 * 60))
-
             iat: Math.floor(Date.now() / 1000), //time of issuing the token.
             exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24 //setting token expiry time limit.
 
@@ -104,7 +108,7 @@ const userLogin = async function (req, res) {
         res.setHeader("x-api-key", token);
         res.status(201).send({ status: true, data: { token: token } });
       } catch (err) {
-        res.status(500).send({ message: "Error", error: err.message });
+        res.status(500).send({status: false,  message: err });
       }
     }
 

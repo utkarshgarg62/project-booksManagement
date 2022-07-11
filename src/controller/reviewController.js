@@ -128,7 +128,12 @@ const updatedReview = async function (req, res) {
         //************************************* DB CALL FOR UPDATING ****************************************/
 
 
-        let updatedReview = await reviewModel.findOneAndUpdate({ _id: reviewId }, { review: review, rating: rating, reviewedBy: reviewedBy }, { new: true })
+        let updatedReview = await reviewModel.findOneAndUpdate({ _id: reviewId }, 
+            {   review: review, 
+                rating: rating, 
+                reviewedBy: reviewedBy 
+            }, 
+                { new: true })
         res.status(201).send({ status: true, data: updatedReview })
 
     } catch (err) {
@@ -136,7 +141,6 @@ const updatedReview = async function (req, res) {
     }
 
 }
-
 
 
 //================================================[Delete Review API By reviewId]================================================================
