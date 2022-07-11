@@ -178,8 +178,14 @@ const updatedBook = async function (req, res) {
         if (!isValidString(releasedAt)) {
             return res.status(400).send({ status: false, message: "ReleasedAt is missing !" })
         }
+        if (!isValidDate(releasedAt)) {
+            return res.status(400).send({ status: false, message: "Enter a valid releasedAt format - YYYY-MM-DD " })
+        }
         if (!isValidString(ISBN)) {
             return res.status(400).send({ status: false, message: "ISBN is missing !" })
+        }
+        if (!isValidISBN(ISBN)) {
+            return res.status(400).send({ status: false, message: "Enter a valid ISBN Number" })
         }
 
         const findTitle = await bookModel.findOne({ title: title, isDeleted: false })
@@ -193,7 +199,7 @@ const updatedBook = async function (req, res) {
 
         if (bookToBeUpdted.isDeleted == false) {
             let updatedBook = await bookModel.findOneAndUpdate({ _id: BookId }, { title: title, excerpt: excerpt, releasedAt: releasedAt, ISBN: ISBN }, { new: true })
-            res.status(201).send({ status: true, data: updatedBook })
+            res.status(200).send({ status: true, data: updatedBook })
         }
         else {
             return res.status(400).send({ status: false, message: "Unable to update details. Book has been already deleted" })

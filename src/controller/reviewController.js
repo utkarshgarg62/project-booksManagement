@@ -134,7 +134,7 @@ const updatedReview = async function (req, res) {
                 reviewedBy: reviewedBy 
             }, 
                 { new: true })
-        res.status(201).send({ status: true, data: updatedReview })
+        res.status(200).send({ status: true, data: updatedReview })
 
     } catch (err) {
         res.status(500).send({ status: false, message: err })
