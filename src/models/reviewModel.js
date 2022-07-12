@@ -31,7 +31,6 @@ const reviewSchema = new mongoose.Schema({
 
     review: {
         type: String,
-        // default: 'No comments on this book yet.',
         trim: true
     },
 

@@ -47,9 +47,9 @@ const createReview = async function (req, res) {
 
         //------------ Validation review
 
-        if (!isValid(review)) {
-            return res.status(400).send({ status: false, message: "Please Provide a review" })
-        }
+        // if (!isValid(review)) {
+        //     return res.status(400).send({ status: false, message: "Please Provide a review" })
+        // }
 
         
         //************************************* DB CALL FOR CREATING *************************************************/
@@ -58,14 +58,18 @@ const createReview = async function (req, res) {
         let saveReview = await reviewModel.create(data)
         // increase the reviews count in same book
         if (saveReview) await bookModel.findOneAndUpdate({ _id: Id }, { $inc: { reviews: +1 } })
-        let response = await reviewModel.findOne({ _id: saveReview._id }).select({
-            __v: 0,
-            createdAt: 0,
-            updatedAt: 0,
-            isDeleted: 0
-        })
+        let getBookData = await bookModel .findOne({_id:saveReview.bookId,isDeleted:false})
+        let response = await reviewModel.findOne({ _id: saveReview._id })
 
-        return res.status(201).send({ status: true, message: "Success", data: response })
+        let reviewObj = getBookData.toObject()
+        if (response) {
+            reviewObj['reviewsData'] = response
+        }
+
+
+
+
+        return res.status(201).send({ status: true, message: "Success", data: reviewObj })
 
     }
     catch (err) {
@@ -132,9 +136,19 @@ const updatedReview = async function (req, res) {
             {   review: review, 
                 rating: rating, 
                 reviewedBy: reviewedBy 
-            }, 
-                { new: true })
-        res.status(200).send({ status: true, data: updatedReview })
+            },
+            { new: true })
+
+
+        let reviewObj = checkBookId.toObject()
+        if (updatedReview) {
+            reviewObj['reviewsData'] = updatedReview
+        }
+
+
+
+
+        res.status(200).send({ status: true, data: reviewObj })
 
     } catch (err) {
         res.status(500).send({ status: false, message: err })
@@ -174,6 +188,7 @@ const deleteReview = async function (req, res) {
 
         // decrease the review count in the book
         let decreaseCount = await bookModel.findOneAndUpdate({ _id: bookId, reviews: { $gt: 0 } }, { $inc: { reviews: -1 } })
+
         return res.status(200).send({ status: true, message: 'Review Deleted Successfully' })
 
     } catch (err) {
