@@ -1,7 +1,7 @@
 const reviewModel = require("../models/reviewModel")
 const bookModel = require("../models/bookModel")
 
-const { isValid, isValidObjectId, isValidName, isValidRating, isValidString } = require("../middleware/validation");
+const {  isValidObjectId, isValidName, isValidRating, isValidString } = require("../middleware/validation");
 
 //====================================================[Create Review Api]========================================================================
 
@@ -9,7 +9,7 @@ const createReview = async function (req, res) {
     try {
         let data = req.body
         let Id = req.params.bookId
-        let { rating, reviewedBy, review } = data
+        let { rating, reviewedBy } = data
 
         if (Object.keys(data).length < 1) {
             return res.status(400).send({ status: false, message: "Insert Review Data : BAD REQUEST" })
@@ -45,13 +45,6 @@ const createReview = async function (req, res) {
             return res.status(400).send({ status: false, message: "Rating should be in range of number 1 to 5" })
         }
 
-        //------------ Validation review
-
-        // if (!isValid(review)) {
-        //     return res.status(400).send({ status: false, message: "Please Provide a review" })
-        // }
-
-        
         //************************************* DB CALL FOR CREATING *************************************************/
         
         data.reviewedAt = new Date()
@@ -65,9 +58,6 @@ const createReview = async function (req, res) {
         if (response) {
             reviewObj['reviewsData'] = response
         }
-
-
-
 
         return res.status(201).send({ status: true, message: "Success", data: reviewObj })
 

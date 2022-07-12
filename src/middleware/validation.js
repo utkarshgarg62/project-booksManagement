@@ -14,19 +14,16 @@ const isValidString = function(value){
     return true
 }
 
-
 //Name Validation
 const isValidName =function(name){
     const  nameRegex =/^[a-zA-Z ]{2,30}$/
     return nameRegex.test(name)
 }
 
-
 //Title Validation
 const isValidTitle =function(title){
     return ["Mr", "Mrs", "Miss"].indexOf(title) !== -1
 }
-
 
 //Mobile Validation
 const isValidMobile = function (mobile) {
@@ -34,20 +31,17 @@ const isValidMobile = function (mobile) {
     return re.test(mobile);
 }
 
-
 //Email Validation
 const isValidEmail = function(email){
     const emailRegex = /^[a-z0-9][a-z0-9-_\.]+@([a-z]|[a-z0-9]?[a-z0-9-]+[a-z0-9])\.[a-z0-9]{2,10}(?:\.[a-z]{2,10})?$/
     return emailRegex.test(email)
 }
 
-
 //Password Validation
 const isValidPassword = function(password){
     const passRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,15}$/
     return passRegex.test(password)
 }
-
 
 //ObjectId Validation
 const  isValidObjectId =function(id){
@@ -67,19 +61,6 @@ const isValidDate =function(date){
     return dateRegex.test(date)
 }
 
-
-//Boolean Validation
-const isBoolean = function(value){
-    if(value === true || value === false) return true
-    return false
-}
-
-// ReviewdBy validation
-// const isValidReviewed = function(reviewedBy){
-//     const reviewReg = /^[a-zA-Z]+(\s[a-zA-Z]+)?$/
-//     return reviewReg.test(reviewedBy)
-// }
-
 //Rating Validation
 const isValidRating = function isInteger(value) {
     return value % 1 == 0;
@@ -94,9 +75,7 @@ module.exports = {
     isValidEmail, 
     isValidPassword, 
     isValidObjectId, 
-    isBoolean, 
     isValid,
     isValidDate,
-    // isValidReviewed,
     isValidRating
 }
