@@ -168,34 +168,48 @@ const updatedBook = async function (req, res) {
         let { title, excerpt, releasedAt, ISBN } = data
         if (Object.keys(data).length === 0) return res.status(400).send({ status: false, message: "Insert Data : Bad Request" });
 
-        if (!isValidString(title)) {
-            return res.status(400).send({ status: false, message: "Title is missing ! " })
+
+        if(title){
+            if(!isValidString(title)){
+                return res.status(400).send({ status: false, message: "Title is missing ! " })
+            }
+            const findTitle = await bookModel.findOne({ title: title, isDeleted: false })
+            if (findTitle) {return res.status(400).send({ status: false, message: "Title is already exists. Please try a new title." })}
+        }
+      
+    
+        if(excerpt){
+            if (!isValidString(excerpt)) {
+                return res.status(400).send({ status: false, message: "Excerpt is missing !" })
+            }
         }
 
-        if (!isValidString(excerpt)) {
-            return res.status(400).send({ status: false, message: "Excerpt is missing !" })
-        }
-        if (!isValidString(releasedAt)) {
-            return res.status(400).send({ status: false, message: "ReleasedAt is missing !" })
-        }
-        if (!isValidDate(releasedAt)) {
-            return res.status(400).send({ status: false, message: "Enter a valid releasedAt format - YYYY-MM-DD " })
-        }
-        if (!isValidString(ISBN)) {
-            return res.status(400).send({ status: false, message: "ISBN is missing !" })
-        }
-        if (!isValidISBN(ISBN)) {
-            return res.status(400).send({ status: false, message: "Enter a valid ISBN Number" })
+
+
+        if (releasedAt) {
+            if(!isValidString(title)){
+                return res.status(400).send({ status: false, message: "ReleasedAt is missing !" })
+            }
+            if (!isValidDate(releasedAt)) {
+                return res.status(400).send({ status: false, message: "Enter a valid releasedAt format - YYYY-MM-DD " })
+            }
         }
 
-        const findTitle = await bookModel.findOne({ title: title, isDeleted: false })
-        if (findTitle) {
-            return res.status(400).send({ status: false, message: "Title is already exists. Please try a new title." })
+  
+
+        if (ISBN) {
+            if(!isValidString(ISBN)){
+                return res.status(400).send({ status: false, message: "ISBN is missing !" })
+            }
+            if (!isValidISBN(ISBN)) {
+                return res.status(400).send({ status: false, message: "Enter a valid ISBN Number" })
+            }
+            const findIsbn = await bookModel.findOne({ ISBN: ISBN, isDeleted: false })
+            if (findIsbn) {
+                return res.status(400).send({ status: false, message: "ISBN is already exists. Please try a new ISBN." })
+            }
         }
-        const findIsbn = await bookModel.findOne({ ISBN: ISBN, isDeleted: false })
-        if (findIsbn) {
-            return res.status(400).send({ status: false, message: "ISBN is already exists. Please try a new ISBN." })
-        }
+        
 
         if (bookToBeUpdted.isDeleted == false) {
             let updatedBook = await bookModel.findOneAndUpdate({ _id: BookId }, { title: title, excerpt: excerpt, releasedAt: releasedAt, ISBN: ISBN }, { new: true })
@@ -204,6 +218,7 @@ const updatedBook = async function (req, res) {
         else {
             return res.status(400).send({ status: false, message: "Unable to update details. Book has been already deleted" })
         }
+
 
     } catch (error) {
         res.status(500).send({ status: false, message: error.message })

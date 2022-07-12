@@ -103,20 +103,28 @@ const updatedReview = async function (req, res) {
 
         //************************************* VALIDATING *************************************************/
 
-        if (!isValidString(review)) {
-            return res.status(400).send({ status: false, message: "Review is missing ! " })
+        if(review){
+            if (!isValidString(review)) {
+                return res.status(400).send({ status: false, message: "Review is missing ! " })
+            }
         }
-        if (!isValidRating(rating)) {
-            return res.status(400).send({ status: false, message: 'Rating must be 1,2,3,4 or 5 not a character' })
+
+        if(rating){
+            if (!isValidRating(rating)) {
+                return res.status(400).send({ status: false, message: 'Rating must be 1,2,3,4 or 5 not a character' })
+            }
+            if ((rating < 1 || rating > 5)) {
+                return res.status(400).send({ status: false, message: "Rating should be in range of number 1 to 5" })
+            }
         }
-        if ((rating < 1 || rating > 5)) {
-            return res.status(400).send({ status: false, message: "Rating should be in range of number 1 to 5" })
-        }
-        if (!isValidName(reviewedBy)) {
-            return res.status(400).send({ status: false, message: "please enter valid name in reviewedBy : eg- John Doe" });
-        }
-        if (!isValidString(reviewedBy)) {
-            return res.status(400).send({ status: false, message: "ReviewedBy is missing !" })
+ 
+        if(reviewedBy){
+            if (!isValidName(reviewedBy)) {
+                return res.status(400).send({ status: false, message: "please enter valid name in reviewedBy : eg- John Doe" });
+            }
+            if (!isValidString(reviewedBy)) {
+                return res.status(400).send({ status: false, message: "ReviewedBy is missing !" })
+            }
         }
 
         //************************************* DB CALL FOR UPDATING ****************************************/
@@ -129,13 +137,10 @@ const updatedReview = async function (req, res) {
             },
             { new: true })
 
-
         let reviewObj = checkBookId.toObject()
         if (updatedReview) {
             reviewObj['reviewsData'] = updatedReview
         }
-
-
 
 
         res.status(200).send({ status: true, data: reviewObj })

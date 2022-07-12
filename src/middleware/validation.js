@@ -57,7 +57,7 @@ const isValidISBN =function(ISBN){
 
 //Date Validation
 const isValidDate =function(date){
-    const  dateRegex =/((\d{4}[\/-])(\d{2}[\/-])(\d{2}))/
+    const  dateRegex =/^\d{4}-\d{2}-\d{2}$/;
     return dateRegex.test(date)
 }
 
