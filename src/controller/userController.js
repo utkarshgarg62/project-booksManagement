@@ -106,7 +106,7 @@ const userLogin = async function (req, res) {
           "bookManagement35"
         );
         res.setHeader("x-api-key", token);
-        res.status(201).send({ status: true, data: { token: token } });
+        res.status(200).send({ status: true, data: { token: token } });
       } catch (err) {
         res.status(500).send({status: false,  message: err });
       }
