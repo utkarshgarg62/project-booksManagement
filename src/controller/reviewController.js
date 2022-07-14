@@ -113,7 +113,7 @@ const updatedReview = async function (req, res) {
             if (!isValidRating(rating)) {
                 return res.status(400).send({ status: false, message: 'Rating must be 1,2,3,4 or 5 not a character' })
             }
-            if ((rating < 1 || rating > 5)) {
+            if (!(rating >=1 || rating <=5)) {
                 return res.status(400).send({ status: false, message: "Rating should be in range of number 1 to 5" })
             }
         }

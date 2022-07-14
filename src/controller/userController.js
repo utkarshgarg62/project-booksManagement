@@ -8,7 +8,7 @@ const { isValid, isValidEmail, isValidMobile, isValidName,isValidTitle, isValidP
 const createUser = async function(req,res){
     try{
         const data = req.body;
-        let { title, name, phone, email, password, address } = data;
+        let { title, name, phone, email, password } = data;
         if (Object.keys(data).length<1) {
             return res.status(400).send({ status: false, message: "Data is required to create a user" });
           }
