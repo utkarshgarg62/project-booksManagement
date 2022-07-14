@@ -1,6 +1,7 @@
 const bookModel = require("../models/bookModel")
 const userModel = require("../models/userModel")
 const reviewModel = require("../models/reviewModel");
+const aws= require("aws-sdk")
 const { isValid, isValidObjectId, isValidDate, isValidISBN, isValidString } = require("../middleware/validation");
 
 
@@ -98,7 +99,7 @@ const createBook = async function (req, res) {
         const uploadedBookImage = await uploadFile(files[0])
         data.bookImage=uploadedBookImage
 
-        
+
         let savedData = await bookModel.create(data);
         res.status(201).send({ status: true, message: "Success", data: savedData });
     }

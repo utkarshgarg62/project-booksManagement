@@ -2,11 +2,13 @@ const express= require('express')
 const bodyparser=require('body-parser')
 const route=require('./route/route')
 const mongoose=require('mongoose')
+const multer=require("multer")
 
 
 const app=express()
 app.use(bodyparser.json())
 app.use(bodyparser.urlencoded({extended:true}))
+app.use(multer().any())
 
 //===================================================Data-Base Connection=================================================================
 
